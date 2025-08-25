@@ -1,0 +1,12 @@
+env: "local" # local, dev, prod
+
+token_ttl: "1h"
+
+postgres:
+  host: "127.0.0.1"
+  port: "5432"
+  max_conn: 10
+
+grpc_server:
+  port: 44044
+  timeout: "4s"
