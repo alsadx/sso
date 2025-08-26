@@ -9,10 +9,10 @@ import (
 )
 
 type Config struct {
-	Env        string        `yaml:"env" env-default:"local"`
-	TokenTTL   time.Duration `yaml:"token_ttl" env-required:"true"`
-	Storage    `yaml:"postgres" env-required:"true"`
-	GRPCServer `yaml:"http_server"`
+	Env      string        `yaml:"env" env-default:"local"`
+	TokenTTL time.Duration `yaml:"token_ttl" env-required:"true"`
+	Storage  `yaml:"postgres" env-required:"true"`
+	GRPC     `yaml:"grpc"`
 }
 
 type Storage struct {
@@ -24,9 +24,9 @@ type Storage struct {
 	MaxConn  int32  `yaml:"max_conn" default:"10"`
 }
 
-type GRPCServer struct {
-	Port    int `yaml:"port"`
-	Timeout int `yaml:"timeout"`
+type GRPC struct {
+	Port    int           `yaml:"port"`
+	Timeout time.Duration `yaml:"timeout"`
 }
 
 func MustLoad() *Config {
