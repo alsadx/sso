@@ -7,6 +7,6 @@ postgres:
   port: "5432"
   max_conn: 10
 
-grpc_server:
+grpc:
   port: 44044
   timeout: "4s"
