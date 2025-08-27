@@ -16,11 +16,11 @@ type Config struct {
 }
 
 type Storage struct {
-	Host     string `yaml:"host"`
-	Port     string `yaml:"port"`
-	User     string `yaml:"user" env:"POSTGRES_USER" env-required:"true"`
-	Password string `yaml:"password" env:"POSTGRES_PASSWORD" env-required:"true"`
-	Database string `yaml:"database" env:"POSTGRES_DB" env-required:"true"`
+	Host     string `yaml:"host" env:"DB_HOST" env-default:"127.0.0.1"`
+	Port     string `yaml:"port" env:"DB_PORT" env-default:"5432"`
+	User     string `yaml:"user" env:"~DB_USER" env-required:"true"`
+	Password string `yaml:"password" env:"DB_PASSWORD" env-required:"true"`
+	Database string `yaml:"database" env:"DB_NAME" env-required:"true"`
 	MaxConn  int32  `yaml:"max_conn" default:"10"`
 }
 
