@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"log/slog"
+	"sso/internal/storage/postgres"
 )
 
 type App struct {
@@ -36,11 +37,6 @@ func (a *App) Run(ctx context.Context) error {
 		return fmt.Errorf("%s: parse config: %w", op, err)
 	}
 
-	//cfg.MaxConns = 10
-	//cfg.MinConns = 2
-	//cfg.MaxConnLifetime = time.Hour
-	//cfg.MaxConnIdleTime = 30 * time.Minute
-
 	pool, err := pgxpool.NewWithConfig(ctx, cfg)
 	if err != nil {
 		return fmt.Errorf("%s: connect: %w", op, err)
@@ -71,4 +67,8 @@ func (a *App) Stop() {
 
 func (a *App) Pool() *pgxpool.Pool {
 	return a.pool
+}
+
+func (a *App) Storage() *postgres.Storage {
+	return &postgres.Storage{DbPool: a.pool}
 }

@@ -6,6 +6,7 @@ import (
 	"os/signal"
 	"sso/internal/app"
 	"sso/internal/config"
+	"sso/internal/storage/postgres"
 	"syscall"
 )
 
@@ -22,13 +23,9 @@ func main() {
 
 	log.Info("starting application", slog.Any("cfg", cfg))
 
-	application := app.New(log, cfg.GRPC.Port, cfg.TokenTTL, "")
+	application := app.New(log, cfg.GRPC.Port, cfg.TokenTTL, postgres.BuildDSN(cfg.Storage))
 
 	go application.GRPCSrv.MustRun()
-
-	// TODO: init app
-
-	// TODO: run app's gRPC service
 
 	// Graceful shutdown
 
@@ -40,7 +37,7 @@ func main() {
 	log.Info("stopping application", slog.Any("signal", sig))
 
 	application.GRPCSrv.Stop()
-	application.Pg.Stop()
+	application.Postgres.Stop()
 
 	log.Info("application stopped")
 }
