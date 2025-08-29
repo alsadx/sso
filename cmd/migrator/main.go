@@ -5,8 +5,12 @@ import (
 	"flag"
 	"fmt"
 	"github.com/golang-migrate/migrate/v4"
+	"github.com/joho/godotenv"
 	"log"
 	"os"
+
+	_ "github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 )
 
 func main() {
@@ -16,11 +20,15 @@ func main() {
 	flag.StringVar(&migrationsTable, "migrations-table", "migrations", "Table name")
 	flag.Parse()
 
-	dbUser := os.Getenv("DB_USER")
-	dbPassword := os.Getenv("DB_PASSWORD")
-	dbHost := os.Getenv("DB_HOST")
-	dbPort := os.Getenv("DB_PORT")
-	dbName := os.Getenv("DB_NAME")
+	if err := godotenv.Load(); err != nil {
+		log.Printf("Warning: no .env file found: %v", err)
+	}
+
+	dbUser := os.Getenv("POSTGRES_USER")
+	dbPassword := os.Getenv("POSTGRES_PASSWORD")
+	dbHost := os.Getenv("POSTGRES_HOST")
+	dbPort := os.Getenv("POSTGRES_PORT")
+	dbName := os.Getenv("POSTGRES_DB")
 
 	fmt.Println(dbUser, dbPassword, dbHost, dbPort, dbName, migrationsPath, migrationsTable)
 
